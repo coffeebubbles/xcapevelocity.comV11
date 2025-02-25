@@ -48,7 +48,7 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
           </div>
         </div>
 
-        <form className="space-y-6" data-netlify="true">
+        <form netlify method="POST" name="Enrollment modal" className="space-y-6" data-netlify="true">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
               Full Name
@@ -56,6 +56,7 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
             <input
               type="text"
               id="name"
+              name="name"
               className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
               placeholder="John Doe"
             />
@@ -68,6 +69,7 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
             <input
               type="email"
               id="email"
+              name="email"
               className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
               placeholder="john@example.com"
             />
@@ -80,6 +82,7 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
             <input
               type="tel"
               id="phone"
+              name="phone"
               className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
               placeholder="+1 (555) 000-0000"
             />
@@ -88,7 +91,8 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
           <div>
             <label className="flex items-start gap-3 cursor-pointer group">
               <div className="relative flex items-center">
-                <input type="checkbox" className="sr-only peer" />
+                <input type="checkbox" className="sr-only peer" 
+              name="agreedToTermsAndConditionsAndPrivacyPolicy" />
                 <div className="w-5 h-5 border-2 border-gray-600 rounded peer-checked:bg-[#FFD700] peer-checked:border-[#FFD700] transition-all"></div>
                 <Check className="w-3 h-3 text-black absolute left-1 top-1 opacity-0 peer-checked:opacity-100 transition-opacity" />
               </div>
