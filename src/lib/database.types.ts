@@ -99,6 +99,47 @@ export interface Database {
           updated_at?: string
         }
       }
+      get_started_requests: {
+        Row: {
+          id: string
+          business_type: string
+          needs: string[]
+          budget: string
+          timeline: string
+          name: string
+          email: string
+          phone: string
+          message: string
+          agreed_to_receive_communications: boolean
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          business_type: string
+          needs: string[]
+          budget: string
+          timeline: string
+          name: string
+          email: string
+          phone: string
+          message: string
+          agreed_to_receive_communications?: boolean
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          business_type?: string
+          needs?: string[]
+          budget?: string
+          timeline?: string
+          name?: string
+          email?: string
+          phone?: string
+          message?: string
+          agreed_to_receive_communications?: boolean
+          created_at?: string
+        }
+      }
     }
   }
 }
