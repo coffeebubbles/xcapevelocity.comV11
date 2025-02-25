@@ -10,7 +10,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     businessType: '',
-    needs: [],
+    needs: [] as string[],
     budget: '',
     timeline: '',
     name: '',
@@ -48,6 +48,14 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
     }));
   };
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // If you want to use Netlify's native submission, you can remove this AJAX code.
+    // Otherwise, you can perform your custom AJAX submission here.
+    console.log('Form submitted:', formData);
+    onClose();
+  };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -59,6 +67,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 What type of business do you run?
               </label>
               <select
+                name="businessType"
                 value={formData.businessType}
                 onChange={(e) => setFormData(prev => ({ ...prev, businessType: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -79,6 +88,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 {needs.map((need, index) => (
                   <button
                     key={index}
+                    type="button"
                     onClick={() => handleNeedToggle(need.title)}
                     className={`p-4 rounded-xl border-2 transition-all ${
                       formData.needs.includes(need.title)
@@ -96,6 +106,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                   </button>
                 ))}
               </div>
+              {/* Hidden input for needs so Netlify can capture the values */}
+              <input type="hidden" name="needs" value={formData.needs.join(', ')} />
             </div>
           </div>
         );
@@ -109,6 +121,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 What's your estimated budget?
               </label>
               <select
+                name="budget"
                 value={formData.budget}
                 onChange={(e) => setFormData(prev => ({ ...prev, budget: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -128,6 +141,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 What's your desired timeline?
               </label>
               <select
+                name="timeline"
                 value={formData.timeline}
                 onChange={(e) => setFormData(prev => ({ ...prev, timeline: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -145,6 +159,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
                 Additional Details
               </label>
               <textarea
+                name="message"
                 value={formData.message}
                 onChange={(e) => setFormData(prev => ({ ...prev, message: e.target.value }))}
                 rows={4}
@@ -165,7 +180,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               </label>
               <input
                 type="text"
-                name="fullName"
+                name="name"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -193,7 +208,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               </label>
               <input
                 type="tel"
-                name="tel"
+                name="phone"
                 value={formData.phone}
                 onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -204,8 +219,11 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             <div>
               <label className="flex items-start gap-3 cursor-pointer group">
                 <div className="relative flex items-center">
-                  <input type="checkbox" className="sr-only peer" 
-                name="agreedToReceiveCommunications" />
+                  <input 
+                    type="checkbox" 
+                    name="agreedToReceiveCommunications" 
+                    className="sr-only peer" 
+                  />
                   <div className="w-5 h-5 border-2 border-gray-600 rounded peer-checked:bg-[#FFD700] peer-checked:border-[#FFD700] transition-all"></div>
                   <Check className="w-3 h-3 text-black absolute left-1 top-1 opacity-0 peer-checked:opacity-100 transition-opacity" />
                 </div>
@@ -232,65 +250,79 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
           <X className="w-6 h-6" />
         </button>
 
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold text-white">Get Started with AI Automation</h1>
-            <div className="flex items-center gap-2">
-              {[1, 2, 3].map((s) => (
-                <div
-                  key={s}
-                  className={`w-3 h-3 rounded-full ${
-                    s === step ? 'bg-[#FFD700]' : 'bg-gray-700'
-                  }`}
-                ></div>
-              ))}
+        <form
+          name="getStartedModal"
+          method="POST"
+          data-netlify="true"
+          onSubmit={handleSubmit}
+        >
+          {/* Hidden input required by Netlify */}
+          <input type="hidden" name="form-name" value="getStartedModal" />
+          {/* Optional honeypot field for spam prevention */}
+          <p hidden>
+            <label>
+              Don’t fill this out: <input name="bot-field" onChange={() => {}} />
+            </label>
+          </p>
+          
+          <div className="mb-8">
+            <div className="flex items-center justify-between mb-8">
+              <h1 className="text-3xl font-bold text-white">Get Started with AI Automation</h1>
+              <div className="flex items-center gap-2">
+                {[1, 2, 3].map((s) => (
+                  <div
+                    key={s}
+                    className={`w-3 h-3 rounded-full ${
+                      s === step ? 'bg-[#FFD700]' : 'bg-gray-700'
+                    }`}
+                  ></div>
+                ))}
+              </div>
+            </div>
+
+            {renderStep()}
+
+            <div className="flex items-center justify-between mt-8">
+              {step > 1 ? (
+                <button
+                  type="button"
+                  onClick={() => setStep(step - 1)}
+                  className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  Previous Step
+                </button>
+              ) : (
+                <div></div>
+              )}
+
+              {step < 3 ? (
+                <button
+                  type="button"
+                  onClick={() => setStep(step + 1)}
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-[#FFD700]/80 rounded-xl transform translate-y-1.5"></div>
+                  <div className="relative bg-[#FFD700] text-black px-6 py-3 rounded-xl font-medium transform group-hover:-translate-y-1 transition-all duration-200 shadow-lg flex items-center gap-2">
+                    Next Step
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  className="relative group"
+                >
+                  <div className="absolute inset-0 bg-[#FFD700]/80 rounded-xl transform translate-y-1.5"></div>
+                  <div className="relative bg-[#FFD700] text-black px-6 py-3 rounded-xl font-medium transform group-hover:-translate-y-1 transition-all duration-200 shadow-lg flex items-center gap-2">
+                    Submit Request
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
+                </button>
+              )}
             </div>
           </div>
-
-          {renderStep()}
-
-          <div className="flex items-center justify-between mt-8">
-            {step > 1 ? (
-              <button
-                onClick={() => setStep(step - 1)}
-                className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Previous Step
-              </button>
-            ) : (
-              <div></div>
-            )}
-
-            {step < 3 ? (
-              <button
-                onClick={() => setStep(step + 1)}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-[#FFD700]/80 rounded-xl transform translate-y-1.5"></div>
-                <div className="relative bg-[#FFD700] text-black px-6 py-3 rounded-xl font-medium transform group-hover:-translate-y-1 transition-all duration-200 shadow-lg flex items-center gap-2">
-                  Next Step
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </button>
-            ) : (
-              <button
-                onClick={() => {
-                  // Handle form submission
-                  console.log('Form submitted:', formData);
-                  onClose();
-                }}
-                className="relative group"
-              >
-                <div className="absolute inset-0 bg-[#FFD700]/80 rounded-xl transform translate-y-1.5"></div>
-                <div className="relative bg-[#FFD700] text-black px-6 py-3 rounded-xl font-medium transform group-hover:-translate-y-1 transition-all duration-200 shadow-lg flex items-center gap-2">
-                  Submit Request
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </button>
-            )}
-          </div>
-        </div>
+        </form>
       </div>
     </div>
   );

@@ -51,7 +51,7 @@ export function QuestionnairePage() {
           Help us understand your needs and create a tailored workflow that delivers measurable results
         </p>
 
-        <form netlify method="POST" name="Questionnaire page" onSubmit={handleSubmit} className="space-y-12" data-netlify="true">
+        <form onSubmit={handleSubmit} className="space-y-12">
           {/* Business Overview */}
           <div className="bg-[#111111] rounded-3xl p-8">
             <h2 className="text-2xl font-bold text-white mb-8">I. Business Overview</h2>
@@ -62,7 +62,6 @@ export function QuestionnairePage() {
                 </label>
                 <input
                   type="text"
-                  name="companyName"
                   required
                   value={formData.companyName}
                   onChange={(e) => setFormData(prev => ({ ...prev, companyName: e.target.value }))}
@@ -76,7 +75,6 @@ export function QuestionnairePage() {
                 </label>
                 <input
                   type="text"
-                  name="industry"
                   required
                   value={formData.industry}
                   onChange={(e) => setFormData(prev => ({ ...prev, industry: e.target.value }))}
@@ -89,7 +87,6 @@ export function QuestionnairePage() {
                   Briefly describe your business and core operations *
                 </label>
                 <textarea
-                  name="businessDescription"
                   required
                   rows={4}
                   value={formData.businessDescription}
@@ -109,7 +106,6 @@ export function QuestionnairePage() {
                   What is your main goal for implementing AI automation? *
                 </label>
                 <textarea
-                  name="mainGoal"
                   required
                   rows={4}
                   value={formData.mainGoal}
@@ -126,7 +122,6 @@ export function QuestionnairePage() {
                 {formData.metrics.map((metric, index) => (
                   <div key={index} className="grid grid-cols-2 gap-4 mb-4">
                     <input
-                  name="metric"
                       type="text"
                       placeholder={`Metric ${index + 1}`}
                       value={metric.metric}
@@ -139,7 +134,6 @@ export function QuestionnairePage() {
                     />
                     <input
                       type="text"
-                      name="target"
                       placeholder="Target Value"
                       value={metric.target}
                       onChange={(e) => {
@@ -158,7 +152,6 @@ export function QuestionnairePage() {
                   What challenges are you currently facing? *
                 </label>
                 <textarea
-                      name="challenges"
                   required
                   rows={4}
                   value={formData.challenges}
@@ -180,7 +173,6 @@ export function QuestionnairePage() {
                       Program/Service {index + 1}
                     </label>
                     <input
-                      name="programs"
                       type="text"
                       value={program.name}
                       onChange={(e) => {
@@ -196,7 +188,6 @@ export function QuestionnairePage() {
                       API Access Available?
                     </label>
                     <select
-                      name="hasApi"
                       value={program.hasApi}
                       onChange={(e) => {
                         const newPrograms = [...formData.programs];
@@ -218,7 +209,6 @@ export function QuestionnairePage() {
                   Data Privacy & Security Requirements
                 </label>
                 <textarea
-                      name="privacyRequirements"
                   rows={4}
                   value={formData.privacyRequirements}
                   onChange={(e) => setFormData(prev => ({ ...prev, privacyRequirements: e.target.value }))}
@@ -231,7 +221,6 @@ export function QuestionnairePage() {
                 <div className="relative flex items-center mt-1">
                   <input
                     type="checkbox"
-                    name="hasPermissions"
                     className="sr-only peer"
                     checked={formData.hasPermissions}
                     onChange={(e) => setFormData(prev => ({ ...prev, hasPermissions: e.target.checked }))}
@@ -255,7 +244,6 @@ export function QuestionnairePage() {
                   Describe your ideal workflow *
                 </label>
                 <textarea
-                    name="workflowDescription"
                   required
                   rows={6}
                   value={formData.workflowDescription}
@@ -269,7 +257,6 @@ export function QuestionnairePage() {
                   Example workflows or processes to replicate
                 </label>
                 <textarea
-                    name="exampleWorkflows"
                   rows={4}
                   value={formData.exampleWorkflows}
                   onChange={(e) => setFormData(prev => ({ ...prev, exampleWorkflows: e.target.value }))}
@@ -288,7 +275,6 @@ export function QuestionnairePage() {
                   Desired Implementation Timeline *
                 </label>
                 <input
-                    name="timeline"
                   type="text"
                   required
                   value={formData.timeline}
@@ -302,7 +288,6 @@ export function QuestionnairePage() {
                   Specific Requirements or Expectations
                 </label>
                 <textarea
-                    name="expectations"
                   rows={4}
                   value={formData.expectations}
                   onChange={(e) => setFormData(prev => ({ ...prev, expectations: e.target.value }))}
@@ -316,7 +301,6 @@ export function QuestionnairePage() {
                     Contact Name *
                   </label>
                   <input
-                    name="contactName"
                     type="text"
                     required
                     value={formData.contactName}
@@ -329,7 +313,6 @@ export function QuestionnairePage() {
                     Email Address *
                   </label>
                   <input
-                    name="contactEmail"
                     type="email"
                     required
                     value={formData.contactEmail}
@@ -344,7 +327,6 @@ export function QuestionnairePage() {
                   Phone Number
                 </label>
                 <input
-                  name="contactPhone"
                   type="tel"
                   value={formData.contactPhone}
                   onChange={(e) => setFormData(prev => ({ ...prev, contactPhone: e.target.value }))}

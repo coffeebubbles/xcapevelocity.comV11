@@ -142,7 +142,7 @@ export function ContactPage() {
               <div className="bg-[#111111] rounded-3xl p-6 sm:p-12">
                 <h2 className="text-2xl sm:text-3xl font-bold text-white mb-8">Send Us a Message</h2>
                 <form 
-                  name="Contact page"
+                  name="contact"
                   method="POST"
                   data-netlify="true"
                   data-netlify-honeypot="bot-field"
