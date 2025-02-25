@@ -48,7 +48,7 @@ export function EnrollmentModal({ isOpen, onClose, course }: EnrollmentModalProp
           </div>
         </div>
 
-        <form className="space-y-6">
+        <form className="space-y-6" data-netlify="true">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
               Full Name

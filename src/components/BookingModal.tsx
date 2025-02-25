@@ -65,7 +65,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6" data-netlify="true">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
