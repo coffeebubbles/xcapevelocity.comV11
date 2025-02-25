@@ -165,6 +165,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               </label>
               <input
                 type="text"
+                name="fullName"
                 value={formData.name}
                 onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -178,6 +179,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               </label>
               <input
                 type="email"
+                name="email"
                 value={formData.email}
                 onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -191,6 +193,7 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
               </label>
               <input
                 type="tel"
+                name="tel"
                 value={formData.phone}
                 onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                 className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -201,7 +204,8 @@ export function GetStartedModal({ isOpen, onClose }: GetStartedModalProps) {
             <div>
               <label className="flex items-start gap-3 cursor-pointer group">
                 <div className="relative flex items-center">
-                  <input type="checkbox" className="sr-only peer" />
+                  <input type="checkbox" className="sr-only peer" 
+                name="agreedToReceiveCommunications" />
                   <div className="w-5 h-5 border-2 border-gray-600 rounded peer-checked:bg-[#FFD700] peer-checked:border-[#FFD700] transition-all"></div>
                   <Check className="w-3 h-3 text-black absolute left-1 top-1 opacity-0 peer-checked:opacity-100 transition-opacity" />
                 </div>

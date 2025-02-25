@@ -65,7 +65,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
             </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form netlify method="POST" name="Booking modal" onSubmit={handleSubmit} className="space-y-6" data-netlify="true">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-400 mb-2">
@@ -74,6 +74,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                 <input
                   type="text"
                   id="name"
+                  name="name"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
@@ -88,6 +89,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
@@ -105,6 +107,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                 <input
                   type="tel"
                   id="phone"
+                  name="phone"
                   value={formData.phone}
                   onChange={(e) => setFormData(prev => ({ ...prev, phone: e.target.value }))}
                   className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -118,6 +121,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                 <input
                   type="text"
                   id="company"
+                  name="company"
                   value={formData.company}
                   onChange={(e) => setFormData(prev => ({ ...prev, company: e.target.value }))}
                   className="w-full bg-black border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent"
@@ -136,6 +140,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                   <input
                     type="date"
                     id="preferredDate"
+                    name="preferredDate"
                     required
                     value={formData.preferredDate}
                     onChange={(e) => setFormData(prev => ({ ...prev, preferredDate: e.target.value }))}
@@ -152,6 +157,7 @@ export function BookingModal({ isOpen, onClose, plan }: BookingModalProps) {
                   <input
                     type="time"
                     id="preferredTime"
+                    name="preferredTime"
                     required
                     value={formData.preferredTime}
                     onChange={(e) => setFormData(prev => ({ ...prev, preferredTime: e.target.value }))}
