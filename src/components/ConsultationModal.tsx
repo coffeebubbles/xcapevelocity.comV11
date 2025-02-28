@@ -6,9 +6,10 @@ import { useConsultationStore } from '../stores/consultationStore';
 interface ConsultationModalProps {
   isOpen: boolean;
   onClose: () => void;
+  blockedSlots?: { [key: string]: string[] };
 }
 
-export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
+export function ConsultationModal({ isOpen, onClose, blockedSlots }: ConsultationModalProps) {
   const { profile } = useAuthStore();
   const { createBooking } = useConsultationStore();
   const [formData, setFormData] = useState({
@@ -44,7 +45,7 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     const [hours, minutes] = time.split(':');
     const date = new Date();
     date.setHours(parseInt(hours), parseInt(minutes));
-    
+
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
@@ -58,7 +59,7 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
     const [hours, minutes] = time.split(':');
     const date = new Date();
     date.setHours(parseInt(hours), parseInt(minutes));
-    
+
     return date.toLocaleTimeString('en-US', {
       hour: '2-digit',
       minute: '2-digit',
@@ -69,18 +70,23 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       if (!profile) throw new Error('User profile not found');
 
       const utcTime = convertToUTC(formData.preferredTime);
-      
+
       await createBooking(formData.preferredDate, utcTime, formData.agenda);
       onClose();
     } catch (error) {
       console.error('Error booking consultation:', error);
     }
   };
+
+  const timeZones = [
+    "UTC",
+    "Europe/London",
+  ];
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center overflow-y-auto">
@@ -187,11 +193,10 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
                 <button
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, consultationType: 'video' }))}
-                  className={`flex items-center gap-2 p-4 rounded-xl transition-all ${
-                    formData.consultationType === 'video'
+                  className={`flex items-center gap-2 p-4 rounded-xl transition-all ${formData.consultationType === 'video'
                       ? 'bg-[#FFD700] text-black'
                       : 'bg-black text-white hover:bg-white/10'
-                  }`}
+                    }`}
                 >
                   <Video className="w-5 h-5" />
                   Video Call
@@ -199,11 +204,10 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
                 <button
                   type="button"
                   onClick={() => setFormData(prev => ({ ...prev, consultationType: 'inPerson' }))}
-                  className={`flex items-center gap-2 p-4 rounded-xl transition-all ${
-                    formData.consultationType === 'inPerson'
+                  className={`flex items-center gap-2 p-4 rounded-xl transition-all ${formData.consultationType === 'inPerson'
                       ? 'bg-[#FFD700] text-black'
                       : 'bg-black text-white hover:bg-white/10'
-                  }`}
+                    }`}
                 >
                   <Users className="w-5 h-5" />
                   In Person
@@ -225,12 +229,13 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
                     onChange={(e) => setFormData(prev => ({ ...prev, timezone: e.target.value }))}
                     className="w-full bg-black border border-gray-800 rounded-xl px-12 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#FFD700] focus:border-transparent appearance-none"
                   >
-                    {Intl.supportedValuesOf('timeZone').map((tz) => (
+                    {timeZones.map((tz) => (
                       <option key={tz} value={tz}>
-                        {tz.replace(/_/g, ' ')}
+                        {tz.replace(/_/g, " ")}
                       </option>
                     ))}
                   </select>
+
                 </div>
               </div>
 
@@ -269,13 +274,16 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
                   <option value="">Select time slot</option>
                   {timeSlots.map((time) => {
                     const localTime = convertToLocalTime(time);
+                    const isBlocked = blockedSlots?.[formData.preferredDate]?.includes(time);
+
                     return (
-                      <option key={time} value={localTime}>
-                        {localTime}
+                      <option key={time} value={localTime} disabled={isBlocked}>
+                        {localTime} {isBlocked ? "(Unavailable)" : ""}
                       </option>
                     );
                   })}
                 </select>
+
               </div>
             </div>
 
